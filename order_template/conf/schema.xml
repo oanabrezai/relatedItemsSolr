@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="predictIORating" version="1.6">
+   
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+    <!-- doc values are enabled by default for primitive types such as long so we don't index the version field  -->
+    <field name="_version_" type="long" indexed="false" stored="false"/>
+    <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+    
+    <field name="user_id" type="string" multiValued="false" indexed="true" stored="true" docValues="true"/>
+    <field name="item_id" type="string" multiValued="false" indexed="true" stored="true" docValues="true"/>
+    <field name="order_id" type="string" multiValued="false" indexed="true" stored="true" docValues="true"/>
+    <field name="rating" type="pdouble" multiValued="false" indexed="true" stored="true"/>
+    <field name="event_time" type="date" multiValued="false" indexed="true" stored="true"/>      
+   
+    <dynamicField name="*_tg" type="text_general"  indexed="true"  stored="true"/>
+    <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/> 
+    <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/>
+    <dynamicField name="*_ds" type="pdoubles" indexed="true"  stored="true"/>
+    <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
+
+    <dynamicField name="random*" type="random" indexed="true" stored="false"/>
+    
+    <uniqueKey>id</uniqueKey>
+
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+   
+    <fieldType name="int" class="solr.TrieIntField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" docValues="true" precisionStep="0" positionIncrementGap="0"/>
+
+    <fieldType name="ints" class="solr.TrieIntField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="floats" class="solr.TrieFloatField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="longs" class="solr.TrieLongField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="doubles" class="solr.TrieDoubleField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+    <fieldType name="pdouble" class="solr.DoublePointField" docValues="true" multiValued="false"/>
+    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+
+    <fieldType name="date" class="solr.DatePointField" positionIncrementGap="0" docValues="true"/>
+    <fieldType name="dates" class="solr.TrieDateField" docValues="true" precisionStep="0" positionIncrementGap="0" multiValued="true"/>
+
+    <fieldType name="tdate" class="solr.TrieDateField" docValues="true" precisionStep="6" positionIncrementGap="0"/>
+
+    <fieldType name="tdates" class="solr.TrieDateField" docValues="true" precisionStep="6" positionIncrementGap="0" multiValued="true"/>
+   
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="false">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="random" class="solr.RandomSortField" />
+</schema>
